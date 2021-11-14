@@ -1,0 +1,49 @@
+#include <Keyboard.h>
+
+const byte Pin_H = 5;
+const byte Pin_J = 6;
+const byte Pin_K = 7;
+const byte Pin_L = 8;
+
+
+boolean state = true;
+
+void setup() {  
+  Serial.begin(9600);
+  Keyboard.begin();
+  pinMode(Pin_H, INPUT_PULLUP); 
+  pinMode(Pin_J, INPUT_PULLUP);
+  pinMode(Pin_K, INPUT_PULLUP);
+  pinMode(Pin_L, INPUT_PULLUP);
+
+   
+}
+
+void loop() {
+  if(state==false){
+    if(digitalRead(Pin_H) == LOW){
+      Keyboard.press('h');
+      delay(100);
+      Keyboard.releaseAll();
+      delay(200);  
+    }
+    if(digitalRead(Pin_J) == LOW){
+      Keyboard.press('j');
+      delay(100);
+      Keyboard.releaseAll();
+      delay(200);  
+    }
+    if(digitalRead(Pin_K) == LOW){
+      Keyboard.press('k');
+      delay(100);
+      Keyboard.releaseAll();
+      delay(200);  
+    }
+    if(digitalRead(Pin_L) == LOW){
+      Keyboard.press('l');
+      delay(100);
+      Keyboard.releaseAll();
+      delay(200);  
+    }   
+  }
+}
