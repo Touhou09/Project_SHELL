@@ -1,0 +1,80 @@
+
+#include <Mouse.h>
+#include <Keyboard.h>
+
+const byte Pin_Q = 4;
+const byte Pin_W = 5;
+const byte Pin_E = 6;
+const byte Pin_R = 7;
+
+const int X_AXIS =0; //마우스 X 축 (A0)
+const int Y_AXIS =1; //마우스 Y 축 (A1) 
+const byte Mouse_click = 3;
+void setup() {
+  pinMode(Pin_Q, INPUT_PULLUP);
+  pinMode(Pin_W, INPUT_PULLUP);
+  pinMode(Pin_E, INPUT_PULLUP);
+  pinMode(Pin_R, INPUT_PULLUP); 
+  pinMode(3, INPUT_PULLUP);
+  Serial.begin(9600);
+  Keyboard.begin();
+  Mouse.begin();
+}
+
+void loop() {
+  int xVal=readJoystick(X_AXIS); //x축값 읽어 저장 
+  int yVal=readJoystick(Y_AXIS); //Y축값 읽어 저장
+  Mouse.move(-xVal, yVal, 0); //해당 좌표로 마우스 이동
+  // '-' 부호를 통해 상하좌우 위치 반대로 조정 가능                              
+
+  delay(5);  
+
+if (digitalRead(3) == LOW) {
+    Mouse.click(MOUSE_RIGHT);
+    delay(10);
+    Mouse.release(MOUSE_RIGHT);
+    delay(10);
+   }
+
+if(digitalRead(Pin_Q) == LOW) { 
+    
+  Keyboard.press('q');
+  delay(100);
+  Keyboard.releaseAll();
+  delay(100);
+  }
+  
+ if (digitalRead(Pin_W) == LOW) { 
+  
+  Keyboard.press('w');
+  delay(100);
+  Keyboard.releaseAll();
+  delay(100);
+  }
+  
+ if (digitalRead(Pin_E) == LOW) { 
+   
+  Keyboard.press('e');
+  delay(100);
+  Keyboard.releaseAll();
+  delay(100);
+ }
+ 
+if (digitalRead(Pin_R) == LOW) { 
+   
+  Keyboard.press('r');
+  delay(100);
+  Keyboard.releaseAll();
+   delay(100);
+ }
+ 
+}
+
+int readJoystick(int axis)  {
+  int val=analogRead(axis);
+  val=map(val, 0, 1023, -4, 4);//입력값 맵핑(미세조정 :-3,-3 ~ -10, 10) 
+  if(val <=2 && val >= -2)  // 미세한 이동 값은 반영 되지 않도록 함
+    return 0; 
+  else
+    return val; //맵핑된 값 전달 
+}
