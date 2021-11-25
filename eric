@@ -1,0 +1,85 @@
+#include <Keyboard.h>
+
+const byte interruptPin = 2;
+boolean state = true;
+ 
+const byte xAxis = A0;         //X axis
+const byte yAxis = A1;         //Y axis
+const byte Pin_U = 3;
+const byte Pin_I = 4;
+const byte Pin_O = 5;
+const byte Pin_P = 6;
+const int ledPin = 7;         // Mouse control LED 
+ void exchange() { //인터럽트스위치버턴  이벤트
+ state=!state;
+ digitalWrite(ledPin, !state);
+}
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(Pin_U, INPUT_PULLUP); 
+  pinMode(Pin_I, INPUT_PULLUP);
+  pinMode(Pin_O, INPUT_PULLUP);
+  pinMode(Pin_P, INPUT_PULLUP);
+   
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), exchange, FALLING);  //인터럽트 발생 시 호출
+   
+  Keyboard.begin();
+}
+ 
+void loop() {
+   
+  if(state==false){ //인터럽트스위치 버턴에 의해서 열림/닫힘
+    int AXIS_X = analogRead(xAxis);
+    int AXIS_Y = analogRead(yAxis);
+      
+  //X축 방향값
+  if(AXIS_X<=300){
+     Keyboard.press('a');
+     delay(50);
+  }
+  else if(AXIS_X>=700){
+     Keyboard.press('d');
+     delay(50);
+  }
+  else{
+    Keyboard.release('a');
+    Keyboard.release('d');  
+  }
+  //Y축 방향값
+  if(AXIS_Y<=300){
+    Keyboard.press('w');
+    delay(50);
+  }
+  else if(AXIS_Y>=700){
+    Keyboard.press('s');
+    delay(50);    
+  }
+  else{
+    Keyboard.release('w');
+    Keyboard.release('s');
+  }
+     
+  //스킬키 제어
+  if(digitalRead(Pin_U) == LOW){
+    Keyboard.press('u');
+    delay(100);
+    Keyboard.release('u');
+  }
+  if(digitalRead(Pin_I) == LOW){
+    Keyboard.press('i');
+    delay(100);
+    Keyboard.release('i');      
+  }
+  if(digitalRead(Pin_O) == LOW){
+    Keyboard.press('o');
+    delay(100);
+    Keyboard.release('o');      
+  }
+  if(digitalRead(Pin_P) == LOW){
+    Keyboard.press('p');
+    delay(100);
+    Keyboard.release('p');      
+  }     
+ }  
+}
