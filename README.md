@@ -14,3 +14,5 @@
 
 
 https://github.com/MHeironimus/ArduinoJoystickLibrary/blob/master/examples/JoystickKeyboard/JoystickKeyboard.ino
+
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=n0fat3&logNo=221096407419
